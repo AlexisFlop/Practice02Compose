@@ -6,11 +6,8 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.alexisflop.laboratorio0211041105.ui.component.MainComponent
+import com.alexisflop.laboratorio0211041105.ui.screen.HomeScreen
 import com.alexisflop.laboratorio0211041105.ui.theme.Laboratorio0211041105Theme
 
 class MainActivity : ComponentActivity() {
@@ -23,7 +20,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    MainComponent()
+                    HomeScreen()
                 }
             }
         }

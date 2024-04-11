@@ -1,8 +1,6 @@
 package com.alexisflop.laboratorio0211041105.ui.component
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
@@ -14,12 +12,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.alexisflop.laboratorio0211041105.ui.data.buttonsStatus
 
 @Composable
 fun ModifyTextComponent() {
 
+
     val pressedCounter: MutableState<Int> = remember {
         mutableStateOf(0)
+    }
+
+    val buttonsScope = remember {
+        buttonsStatus
     }
     Column(
         modifier = Modifier.padding(16.dp),
@@ -27,9 +31,13 @@ fun ModifyTextComponent() {
     )
     {
         Text(text = "The button has been pressed ${pressedCounter.value} times")
-        Button(onClick = {
-            pressedCounter.value++
-        }) {
+        Button(
+            enabled = buttonsScope.value,
+            onClick = {
+                pressedCounter.value++
+            }
+
+        ) {
             Text(text = "Increase counter")
         }
     }
@@ -37,6 +45,6 @@ fun ModifyTextComponent() {
 
 @Preview(showSystemUi = false)
 @Composable
-fun ModifyTextComponentPreview() {
+private fun ModifyTextComponentPreview() {
     ModifyTextComponent()
 }

@@ -26,14 +26,16 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.alexisflop.laboratorio0211041105.ui.data.buttonsStatus
 import com.alexisflop.laboratorio0211041105.ui.data.nameList
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun AddNamesComponent() {
-    val nameListState = remember {nameList}
-    val name: MutableState<String> = remember {
-        mutableStateOf("")
+    val nameListScope = remember { nameList }
+    val name: MutableState<String> = remember { mutableStateOf("") }
+    val buttonsScope = remember {
+        buttonsStatus
     }
 
     Column(
@@ -48,33 +50,41 @@ fun AddNamesComponent() {
             value = name.value, onValueChange = { name.value = it },
             singleLine = true,
             placeholder = { Text(text = "Enter name") },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text,
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Text,
                 imeAction = ImeAction.Done,
                 capitalization = KeyboardCapitalization.Sentences,
-                autoCorrect = true)
+                autoCorrect = true
+            )
         )
-        Button(onClick = {
-            nameList.add(name.value)
-            name.value = ""
-            Log.d("Name List", nameListState.toString())
-        }) {
+        Button(
+            enabled = buttonsScope.value,
+            onClick = {
+                nameList.add(name.value)
+                name.value = ""
+                Log.d("Name List", nameListScope.toString())
+            }
+        ) {
+
             Text(text = "Add name")
         }
 
-        LazyColumn(modifier = Modifier
-            .fillMaxWidth()
-            .border(3.dp, Color.Black)
-            .height(100.dp)) {
-            itemsIndexed(nameListState) { index, name ->
-                Text(text = "Item #$index: $name")
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxWidth()
+                .border(1.dp, Color.Black)
+                .height(100.dp)
+                .padding(horizontal = 4.dp)
+        ) {
+            itemsIndexed(nameListScope) { index, nameToIndexed ->
+                Text(text = "Item #$index: $nameToIndexed")
             }
         }
     }
-
 }
 
 @Preview(showSystemUi = false)
 @Composable
-fun AddNamesComponentPreview() {
+private fun AddNamesComponentPreview() {
     AddNamesComponent()
 }
