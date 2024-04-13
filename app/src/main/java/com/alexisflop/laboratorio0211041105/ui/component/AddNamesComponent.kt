@@ -1,8 +1,10 @@
 package com.alexisflop.laboratorio0211041105.ui.component
 
 import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -31,53 +33,59 @@ import com.alexisflop.laboratorio0211041105.ui.data.nameList
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-fun AddNamesComponent() {
+fun AddNamesComponent(modifier: Modifier = Modifier) {
     val nameListScope = remember { nameList }
     val name: MutableState<String> = remember { mutableStateOf("") }
     val buttonsScope = remember {
         buttonsStatus
     }
 
-    Column(
-        modifier = Modifier
+    Box(
+        modifier = modifier
             .fillMaxWidth()
-            .padding(8.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+            .background(Color.Cyan)
     ) {
-        Text(text = "You can add names on this section")
-        OutlinedTextField(
-            value = name.value, onValueChange = { name.value = it },
-            singleLine = true,
-            placeholder = { Text(text = "Enter name") },
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Text,
-                imeAction = ImeAction.Done,
-                capitalization = KeyboardCapitalization.Sentences,
-                autoCorrect = true
-            )
-        )
-        Button(
-            enabled = buttonsScope.value,
-            onClick = {
-                nameList.add(name.value)
-                name.value = ""
-                Log.d("Name List", nameListScope.toString())
-            }
-        ) {
 
-            Text(text = "Add name")
-        }
-
-        LazyColumn(
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .border(1.dp, Color.Black)
-                .height(100.dp)
-                .padding(horizontal = 4.dp)
+                .fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
-            itemsIndexed(nameListScope) { index, nameToIndexed ->
-                Text(text = "Item #$index: $nameToIndexed")
+            Text(text = "You can add names on this section")
+            OutlinedTextField(
+                value = name.value, onValueChange = { name.value = it },
+                singleLine = true,
+                placeholder = { Text(text = "Enter name") },
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Done,
+                    capitalization = KeyboardCapitalization.Sentences,
+                    autoCorrect = true
+                )
+            )
+            Button(
+                enabled = buttonsScope.value,
+                onClick = {
+                    nameList.add(name.value)
+                    name.value = ""
+                    Log.d("Name List", nameListScope.toString())
+                }
+            ) {
+
+                Text(text = "Add name")
+            }
+
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .border(1.dp, Color.Black)
+                    .height(100.dp)
+                    .padding(horizontal = 4.dp)
+            ) {
+                itemsIndexed(nameListScope) { index, nameToIndexed ->
+                    Text(text = "Item #$index: $nameToIndexed")
+                }
             }
         }
     }
